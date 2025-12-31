@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. 全量接口列表（从原脚本中完整提取）
+    // 1. 全量接口 (【纯净1】已移至首位，总计40+条)
     const parseApis = [
-        {"name": "七哥", "url": "https://jx.nnxv.cn/tv.php?url="},
-        {"name": "虾米", "url": "https://jx.xmflv.cc/?url="},
-        {"name": "纯净1", "url": "https://im1907.top/?jx="},
+        {"name": "纯净1 (首选)", "url": "https://im1907.top/?jx="},
+        {"name": "七哥 (推荐)", "url": "https://jx.nnxv.cn/tv.php?url="},
+        {"name": "虾米 (稳定)", "url": "https://jx.xmflv.cc/?url="},
         {"name": "B站1", "url": "https://jx.jsonplayer.com/player/?url="},
         {"name": "爱豆", "url": "https://jx.aidouer.net/?url="},
         {"name": "BL", "url": "https://vip.bljiex.com/?v="},
@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
         {"name": "M3U8TV", "url": "https://jx.m3u8.tv/jiexi/?url="},
         {"name": "playm3u8", "url": "https://www.playm3u8.cn/jiexi.php?url="},
         {"name": "综合", "url": "https://jx.jsonplayer.com/player/?url="},
-        {"name": "im1907", "url": "https://im1907.top/?jx="},
         {"name": "云析", "url": "https://jx.yparse.com/index.php?url="}
     ];
 
@@ -55,21 +54,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const iframe = document.getElementById('player-iframe');
     const overlay = document.getElementById('player-overlay');
     const overlayText = document.getElementById('overlay-text');
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const apiCountTip = document.getElementById('api-count-tip');
+    const loadingBar = document.getElementById('loading-bar');
+    const currentLineName = document.getElementById('current-line-name');
+    const linesCountTip = document.getElementById('lines-count-tip');
 
-    // 显示线路总数
-    apiCountTip.textContent = `共加载 ${parseApis.length} 条优质线路`;
+    // 侧边栏 & Tab 元素
+    const sidebarTrigger = document.getElementById('sidebar-trigger');
+    const sidebarDrawer = document.getElementById('sidebar-drawer');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const sidebarClose = document.getElementById('sidebar-close');
+    const tabs = document.querySelectorAll('.tab-item');
+    const tabPanes = document.querySelectorAll('.tab-pane');
 
-    // 3. 智能记忆：获取上次使用的线路
-    let savedApiIndex = localStorage.getItem('clover_last_api_index');
+    linesCountTip.textContent = `共 ${parseApis.length} 条魔径`;
+
+    // 3. 记忆 & 初始化
+    let savedApiIndex = localStorage.getItem('clover_v8_api_index');
     let currentApiIndex = savedApiIndex ? parseInt(savedApiIndex) : 0;
-    
-    // 防止索引越界
     if(currentApiIndex >= parseApis.length) currentApiIndex = 0;
-    let currentApiUrl = parseApis[currentApiIndex].url;
+    
+    function updateCurrentLineDisplay() {
+        const api = parseApis[currentApiIndex];
+        currentLineName.textContent = api.name;
+    }
 
-    // 4. 渲染接口列表
+    // 4. 渲染线路列表
     function renderApiList() {
         apiListContainer.innerHTML = '';
         parseApis.forEach((api, index) => {
@@ -84,55 +93,82 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.classList.add('active');
                 
                 currentApiIndex = index;
-                currentApiUrl = api.url;
-                localStorage.setItem('clover_last_api_index', index);
+                localStorage.setItem('clover_v8_api_index', index);
+                updateCurrentLineDisplay();
 
                 if (urlInput.value.trim()) {
                     playVideo(false);
+                    if (window.innerWidth < 600) {
+                        toggleSidebar(false);
+                    }
                 }
             });
             apiListContainer.appendChild(btn);
         });
+        updateCurrentLineDisplay();
     }
 
-    // 5. 播放逻辑
+    // 5. 播放核心 (诗意化文案)
     function playVideo(checkEmpty = true) {
         const url = urlInput.value.trim();
-
         if (checkEmpty && !url) {
             Swal.fire({
-                icon: 'info',
-                title: '请输入地址',
-                text: '请先在上方的平台点击进入视频页，复制地址后粘贴到这里',
-                background: '#051a10',
-                color: '#fff',
-                confirmButtonColor: '#42e695'
+                icon: 'question',
+                title: '四叶草还没收到种子呢',
+                text: '请先粘贴视频地址，让我为您施展魔法~',
+                background: '#081410', color: '#fff', confirmButtonColor: '#00e676',
+                confirmButtonText: '这就去拿'
             });
             return;
         }
 
+        const api = parseApis[currentApiIndex];
         iframe.style.display = 'none';
         overlay.style.display = 'flex';
-        loadingSpinner.style.display = 'block';
-        overlayText.textContent = `🍀 正在通过 [${parseApis[currentApiIndex].name}] 线路加速解析...`;
+        loadingBar.style.display = 'block';
+        overlayText.innerHTML = `正在通过 <span style="color:#00e676">[${api.name}]</span> 魔径编织光影梦境...`;
 
         setTimeout(() => {
-            iframe.src = currentApiUrl + url;
+            iframe.src = api.url + url;
             iframe.onload = () => {
-                loadingSpinner.style.display = 'none';
+                loadingBar.style.display = 'none';
                 overlay.style.display = 'none';
                 iframe.style.display = 'block';
             };
-            // 兜底超时
             setTimeout(() => {
-                 loadingSpinner.style.display = 'none';
+                 loadingBar.style.display = 'none';
                  overlay.style.display = 'none';
                  iframe.style.display = 'block';
-            }, 1000);
+            }, 2000);
         }, 500);
     }
 
-    // 6. 事件绑定
+    // 6. 侧边栏 & Tab 交互
+    function toggleSidebar(show) {
+        if (show) {
+            sidebarDrawer.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        } else {
+            sidebarDrawer.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        }
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabPanes.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const targetId = `tab-${tab.dataset.tab}`;
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
+
+    // 7. 事件绑定
+    sidebarTrigger.addEventListener('click', () => toggleSidebar(true));
+    sidebarClose.addEventListener('click', () => toggleSidebar(false));
+    sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
+
     playBtn.addEventListener('click', () => playVideo());
     urlInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') playVideo(); });
     
@@ -141,8 +177,8 @@ document.addEventListener('DOMContentLoaded', function() {
         iframe.src = '';
         iframe.style.display = 'none';
         overlay.style.display = 'flex';
-        loadingSpinner.style.display = 'none';
-        overlayText.textContent = '请粘贴地址，寻找属于你的四叶草...';
+        loadingBar.style.display = 'none';
+        overlayText.textContent = '静候光影降临，请赐予视频链接...';
         urlInput.focus();
     });
 
@@ -152,16 +188,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (text) {
                 urlInput.value = text;
                 const Toast = Swal.mixin({
-                    toast: true, position: 'top-end', showConfirmButton: false,
-                    timer: 2000, background: '#42e695', color: '#004d40'
+                    toast: true, position: 'top', showConfirmButton: false,
+                    timer: 2000, background: '#00e676', color: '#000'
                 });
-                Toast.fire({ icon: 'success', title: '已自动粘贴并解析' });
+                Toast.fire({ icon: 'success', title: '魔力注入成功，正在解析' });
                 playVideo();
             } else {
-                Swal.fire({ icon: 'warning', title: '剪贴板为空', background: '#051a10', color: '#fff'});
+                Swal.fire({ icon: 'info', title: '剪贴板空空如也', background: '#081410', color: '#fff'});
             }
         } catch (err) {
-            Swal.fire({ icon: 'error', title: '无法读取', text: '请手动粘贴', background: '#051a10', color: '#fff'});
+            Swal.fire({ icon: 'error', title: '无法读取', text: '请手动粘贴', background: '#081410', color: '#fff'});
         }
     });
 
