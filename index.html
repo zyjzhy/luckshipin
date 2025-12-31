@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四叶草小站 🍀 VIP视频智能解析</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animate"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-box">
+                <div class="logo-icon">🍀</div>
+                <div class="logo-text">
+                    <h1>四叶草小站</h1>
+                    <p>Lucky Player & VIP Parser</p>
+                </div>
+            </div>
+            <div class="status-badge">
+                <span class="dot"></span> 线路全开
+            </div>
+        </header>
+
+        <div class="platform-nav">
+            <div class="nav-title">视频源站直达 (点击前往复制地址)</div>
+            <div class="nav-grid">
+                <a href="https://www.iqiyi.com" target="_blank" class="nav-item iqiyi">爱奇艺</a>
+                <a href="https://v.qq.com" target="_blank" class="nav-item tencent">腾讯视频</a>
+                <a href="https://www.youku.com" target="_blank" class="nav-item youku">优酷视频</a>
+                <a href="https://www.mgtv.com" target="_blank" class="nav-item mango">芒果TV</a>
+                <a href="https://www.bilibili.com" target="_blank" class="nav-item bili">哔哩哔哩</a>
+                <a href="https://tv.sohu.com" target="_blank" class="nav-item sohu">搜狐视频</a>
+            </div>
+        </div>
+
+        <div class="player-wrapper">
+            <div class="player-container">
+                <iframe id="player-iframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+                <div id="player-overlay" class="overlay">
+                    <div class="overlay-content">
+                        <i class="ri-leaf-line overlay-icon"></i>
+                        <p id="overlay-text">请粘贴地址，寻找属于你的四叶草...</p>
+                        <div class="loading-spinner" id="loading-spinner" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="player-shadow"></div>
+        </div>
+
+        <div class="control-panel">
+            <div class="input-group">
+                <div class="input-wrapper">
+                    <i class="ri-link input-icon"></i>
+                    <input type="text" id="video-url" placeholder="在此粘贴视频播放页地址..." autocomplete="off">
+                    <button id="smart-paste-btn" class="icon-btn" title="读取剪贴板"><i class="ri-clipboard-line"></i></button>
+                </div>
+                <button id="play-btn" class="main-btn">
+                    <i class="ri-play-fill"></i> 立即播放
+                </button>
+                <button id="clear-btn" class="secondary-btn" title="清空">
+                    <i class="ri-delete-bin-line"></i>
+                </button>
+            </div>
+
+            <div class="api-section">
+                <div class="section-header">
+                    <span><i class="ri-route-line"></i> 解析线路 (自动记忆)</span>
+                    <span class="tip-text" id="api-count-tip">共加载 0 条线路</span>
+                </div>
+                <div class="api-list" id="api-list">
+                    </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 四叶草小站 | 仅供学习交流 | 资源来自第三方</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
