@@ -2,86 +2,128 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>四叶草小站 🍀 VIP视频解析</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>四叶草小站 🍀 寻觅光影</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
-    <div class="background-animate"></div>
+    <div class="aurora-bg"></div>
+    <div class="light-mesh"></div>
+
+    <div id="sidebar-trigger" class="sidebar-trigger">
+        <i class="ri-compass-discover-line"></i>
+        <span class="trigger-text">光影宝库</span>
+    </div>
+
+    <div id="sidebar-drawer" class="sidebar-drawer">
+        <div class="sidebar-header">
+            <div class="sidebar-title">🍀 四叶草秘境</div>
+            <button id="sidebar-close" class="close-btn"><i class="ri-close-line"></i></button>
+        </div>
+        
+        <div class="sidebar-tabs">
+            <div class="tab-item active" data-tab="platforms">
+                <i class="ri-map-pin-user-fill"></i> 寻片之旅
+            </div>
+            <div class="tab-item" data-tab="lines">
+                <i class="ri-magic-fill"></i> 切换魔径
+            </div>
+        </div>
+
+        <div class="sidebar-content">
+            <div id="tab-platforms" class="tab-pane active">
+                <p class="sidebar-tip">跃入各大视界，撷取链接，归来共赏。</p>
+                <div class="sidebar-nav">
+                    <a href="https://www.iqiyi.com" target="_blank" class="side-link iqiyi">
+                        <i class="ri-play-circle-fill"></i> 爱奇艺
+                    </a>
+                    <a href="https://v.qq.com" target="_blank" class="side-link tencent">
+                        <i class="ri-video-fill"></i> 腾讯视频
+                    </a>
+                    <a href="https://www.youku.com" target="_blank" class="side-link youku">
+                        <i class="ri-youtube-fill"></i> 优酷视频
+                    </a>
+                    <a href="https://www.mgtv.com" target="_blank" class="side-link mango">
+                        <i class="ri-tv-fill"></i> 芒果TV
+                    </a>
+                    <a href="https://www.bilibili.com" target="_blank" class="side-link bili">
+                        <i class="ri-bilibili-fill"></i> 哔哩哔哩
+                    </a>
+                    <a href="https://tv.sohu.com" target="_blank" class="side-link sohu">
+                        <i class="ri-search-eye-line"></i> 搜狐视频
+                    </a>
+                </div>
+            </div>
+
+            <div id="tab-lines" class="tab-pane">
+                <div class="lines-header">
+                    <span id="lines-count-tip">探寻魔力通道...</span>
+                    <span class="current-line-tag">当前魔径</span>
+                </div>
+                <div class="api-grid-sidebar" id="api-list">
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
     <div class="container">
         <header>
-            <div class="logo-box">
+            <div class="logo-group">
                 <div class="logo-icon">🍀</div>
                 <div class="logo-text">
                     <h1>四叶草小站</h1>
-                    <p>Lucky Player & VIP Parser</p>
+                    <p>寻觅光影，编织梦境</p>
                 </div>
             </div>
-            <div class="status-badge">
-                <span class="dot"></span> 线路全开
+            <div class="status-pill">
+                <span class="status-dot"></span>
+                <span class="status-text">魔力通道全开</span>
             </div>
         </header>
 
-        <div class="platform-nav">
-            <div class="nav-title">视频源站直达 (点击前往复制地址)</div>
-            <div class="nav-grid">
-                <a href="https://www.iqiyi.com" target="_blank" class="nav-item iqiyi">爱奇艺</a>
-                <a href="https://v.qq.com" target="_blank" class="nav-item tencent">腾讯视频</a>
-                <a href="https://www.youku.com" target="_blank" class="nav-item youku">优酷视频</a>
-                <a href="https://www.mgtv.com" target="_blank" class="nav-item mango">芒果TV</a>
-                <a href="https://www.bilibili.com" target="_blank" class="nav-item bili">哔哩哔哩</a>
-                <a href="https://tv.sohu.com" target="_blank" class="nav-item sohu">搜狐视频</a>
-            </div>
-        </div>
-
-        <div class="player-wrapper">
-            <div class="player-container">
+        <div class="glass-panel player-wrapper">
+            <div class="player-box">
                 <iframe id="player-iframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
                 <div id="player-overlay" class="overlay">
                     <div class="overlay-content">
-                        <i class="ri-leaf-line overlay-icon"></i>
-                        <p id="overlay-text">请粘贴地址，寻找属于你的四叶草...</p>
-                        <div class="loading-spinner" id="loading-spinner" style="display:none;"></div>
+                        <div class="clover-anim">🍀</div>
+                        <p id="overlay-text">静候光影降临，请赐予视频链接...</p>
+                        <div class="loading-bar" id="loading-bar"></div>
                     </div>
                 </div>
             </div>
-            <div class="player-shadow"></div>
         </div>
 
-        <div class="control-panel">
-            <div class="input-group">
-                <div class="input-wrapper">
-                    <i class="ri-link input-icon"></i>
-                    <input type="text" id="video-url" placeholder="在此粘贴视频播放页地址..." autocomplete="off">
-                    <button id="smart-paste-btn" class="icon-btn" title="读取剪贴板"><i class="ri-clipboard-line"></i></button>
-                </div>
-                <button id="play-btn" class="main-btn">
-                    <i class="ri-play-fill"></i> 立即播放
-                </button>
-                <button id="clear-btn" class="secondary-btn" title="清空">
-                    <i class="ri-delete-bin-line"></i>
+        <div class="control-bar glass-panel">
+            <div class="url-input-wrapper">
+                <i class="ri-link-m link-icon"></i>
+                <input type="text" id="video-url" placeholder="在此植入视频链接，开启光影奇遇 (回车即达)..." autocomplete="off">
+                <button id="smart-paste-btn" class="icon-btn" title="召唤剪贴板">
+                    <i class="ri-clipboard-line"></i>
                 </button>
             </div>
-
-            <div class="api-section">
-                <div class="section-header">
-                    <span><i class="ri-route-line"></i> 解析线路 (自动记忆)</span>
-                    <span class="tip-text" id="api-count-tip">共加载 0 条线路</span>
-                </div>
-                <div class="api-list" id="api-list">
-                    </div>
-            </div>
+            <button id="play-btn" class="play-btn">
+                <i class="ri-play-circle-fill"></i> <span class="btn-text">启动魔法</span>
+            </button>
+            <button id="clear-btn" class="icon-btn clear-btn" title="重置时空">
+                <i class="ri-restart-line"></i>
+            </button>
         </div>
         
+        <div class="current-line-tip">
+            当前魔径: <span id="current-line-name">自动选择</span>
+            <span class="switch-hint" onclick="document.getElementById('sidebar-trigger').click()">(点击左侧宝库切换)</span>
+        </div>
+
         <footer>
-            <p>© 2025 四叶草小站 | 仅供学习交流 | 资源来自第三方</p>
+            <p>Crafted with 🍀 & Magic by Clover Team | 仅供探索交流</p>
         </footer>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
