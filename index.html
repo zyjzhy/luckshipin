@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>四叶草小站 🍀 寻觅光影</title>
+    <title>四叶草小站 🍀 V12.0</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -25,45 +25,32 @@
         
         <div class="sidebar-tabs">
             <div class="tab-item active" data-tab="platforms">
-                <i class="ri-map-pin-user-fill"></i> 寻片之旅
+                <i class="ri-map-pin-user-fill"></i> 寻片
             </div>
             <div class="tab-item" data-tab="lines">
-                <i class="ri-magic-fill"></i> 切换魔径
+                <i class="ri-magic-fill"></i> 换线
             </div>
         </div>
 
         <div class="sidebar-content">
             <div id="tab-platforms" class="tab-pane active">
-                <p class="sidebar-tip">跃入各大视界，撷取链接，归来共赏。</p>
+                <p class="sidebar-tip">跃入视界，撷取链接</p>
                 <div class="sidebar-nav">
-                    <a href="https://www.iqiyi.com" target="_blank" class="side-link iqiyi">
-                        <i class="ri-play-circle-fill"></i> 爱奇艺
-                    </a>
-                    <a href="https://v.qq.com" target="_blank" class="side-link tencent">
-                        <i class="ri-video-fill"></i> 腾讯视频
-                    </a>
-                    <a href="https://www.youku.com" target="_blank" class="side-link youku">
-                        <i class="ri-youtube-fill"></i> 优酷视频
-                    </a>
-                    <a href="https://www.mgtv.com" target="_blank" class="side-link mango">
-                        <i class="ri-tv-fill"></i> 芒果TV
-                    </a>
-                    <a href="https://www.bilibili.com" target="_blank" class="side-link bili">
-                        <i class="ri-bilibili-fill"></i> 哔哩哔哩
-                    </a>
-                    <a href="https://tv.sohu.com" target="_blank" class="side-link sohu">
-                        <i class="ri-search-eye-line"></i> 搜狐视频
-                    </a>
+                    <a href="https://www.iqiyi.com" target="_blank" class="side-link iqiyi"><i class="ri-play-circle-fill"></i> 爱奇艺</a>
+                    <a href="https://v.qq.com" target="_blank" class="side-link tencent"><i class="ri-video-fill"></i> 腾讯视频</a>
+                    <a href="https://www.youku.com" target="_blank" class="side-link youku"><i class="ri-youtube-fill"></i> 优酷视频</a>
+                    <a href="https://www.mgtv.com" target="_blank" class="side-link mango"><i class="ri-tv-fill"></i> 芒果TV</a>
+                    <a href="https://www.bilibili.com" target="_blank" class="side-link bili"><i class="ri-bilibili-fill"></i> 哔哩哔哩</a>
+                    <a href="https://tv.sohu.com" target="_blank" class="side-link sohu"><i class="ri-search-eye-line"></i> 搜狐视频</a>
                 </div>
             </div>
 
             <div id="tab-lines" class="tab-pane">
                 <div class="lines-header">
-                    <span id="lines-count-tip">探寻魔力通道...</span>
-                    <span class="current-line-tag">当前魔径</span>
+                    <span id="lines-count-tip">加载魔径...</span>
+                    <span class="current-line-tag">当前使用</span>
                 </div>
-                <div class="api-grid-sidebar" id="api-list">
-                    </div>
+                <div class="api-grid-sidebar" id="api-list"></div>
             </div>
         </div>
     </div>
@@ -81,46 +68,48 @@
             </div>
             <div class="status-pill">
                 <span class="status-dot"></span>
-                <span class="status-text">魔力通道全开</span>
+                <span class="status-text">魔力全开</span>
             </div>
         </header>
 
-        <div class="glass-panel player-wrapper">
-            <div class="player-box">
-                <iframe id="player-iframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
-                <div id="player-overlay" class="overlay">
-                    <div class="overlay-content">
-                        <div class="clover-anim">🍀</div>
-                        <p id="overlay-text">静候光影降临，请赐予视频链接...</p>
-                        <div class="loading-bar" id="loading-bar"></div>
+        <div class="main-console">
+            <div class="glass-panel player-wrapper">
+                <div class="player-box">
+                    <iframe id="player-iframe" src="" allowfullscreen allow="autoplay; fullscreen"></iframe>
+                    <div id="player-overlay" class="overlay">
+                        <div class="overlay-content">
+                            <div class="clover-anim">🍀</div>
+                            <p id="overlay-text">静候光影降临<br>请赐予视频链接...</p>
+                            <div class="loading-bar" id="loading-bar"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="control-bar glass-panel">
-            <div class="url-input-wrapper">
-                <i class="ri-link-m link-icon"></i>
-                <input type="text" id="video-url" placeholder="在此植入视频链接，开启光影奇遇 (回车即达)..." autocomplete="off">
-                <button id="smart-paste-btn" class="icon-btn" title="召唤剪贴板">
-                    <i class="ri-clipboard-line"></i>
+            <div class="control-bar glass-panel">
+                <div class="url-input-wrapper">
+                    <i class="ri-link-m link-icon"></i>
+                    <input type="text" id="video-url" placeholder="在此粘贴视频地址..." autocomplete="off">
+                    <button id="smart-paste-btn" class="icon-btn" title="粘贴">
+                        <i class="ri-clipboard-line"></i>
+                    </button>
+                </div>
+                <button id="play-btn" class="play-btn">
+                    <i class="ri-play-circle-fill"></i> <span class="btn-text">启动魔法</span>
+                </button>
+                <button id="clear-btn" class="icon-btn clear-btn" title="清空">
+                    <i class="ri-restart-line"></i>
                 </button>
             </div>
-            <button id="play-btn" class="play-btn">
-                <i class="ri-play-circle-fill"></i> <span class="btn-text">启动魔法</span>
-            </button>
-            <button id="clear-btn" class="icon-btn clear-btn" title="重置时空">
-                <i class="ri-restart-line"></i>
-            </button>
-        </div>
-        
-        <div class="current-line-tip">
-            当前魔径: <span id="current-line-name">自动选择</span>
-            <span class="switch-hint" onclick="document.getElementById('sidebar-trigger').click()">(点击左侧宝库切换)</span>
+            
+            <div class="current-line-tip">
+                当前: <span id="current-line-name">自动选择</span>
+                <span class="switch-hint" onclick="document.getElementById('sidebar-trigger').click()">(换线)</span>
+            </div>
         </div>
 
         <footer>
-            <p>Crafted with 🍀 & Magic by Clover Team | 仅供探索交流</p>
+            <p>Crafted with 🍀 by Clover Team</p>
         </footer>
     </div>
 
